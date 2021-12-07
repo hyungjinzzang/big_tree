@@ -1,0 +1,82 @@
+create table big_tree_board(
+    bno number(10,0) not null primary key,
+    title varchar2(50) not null,
+    content varchar2(2000)not null,
+    writer varchar2(50)not null,
+    regDate date default sysdate,
+    updateDate date,
+    replyCnt number(10,0) 
+    );
+alter table big_tree_board MODIFY replyCnt  number(10,0) DEFAULT 0;
+
+create table big_tree_member(
+user_num number(4) not null primary key,
+user_name varchar2(30) not null,
+user_id varchar2(30) not null,
+user_pwd varchar2(30) not null,
+user_address varchar2(50),
+user_phone varchar2(50),
+user_email varchar2(30),
+user_birth varchar2(30)
+);
+
+commit;
+
+create SEQUENCE board_seq INCREMENT by 1 start with 1;
+
+create SEQUENCE mem_seq INCREMENT by 1 start with 1;
+
+
+create SEQUENCE mem_seq INCREMENT by 1 start with 1;
+   
+alter table big_tree_board add (views number(10,0) default 0 not null,
+                                 report number(4,0) default 0 not null 
+                                 );
+                                 
+select*from big_tree_board;
+create SEQUENCE member_seq  INCREMENT by 1 start with 1;
+create table big_tree_recommended(
+    bno number(10,0) not null,
+    userName varchar(20) not null,
+    likeCnt number(1) default 0,
+    hateCnt number(1) default 0);
+    
+    commit;
+
+create table big_tree_reply(
+rno number(10,0) primary key not null,
+bno number(10,0) not null,
+reply varchar2(1000) not null,
+replyer varchar2(50) not null,
+replyDate date default sysdate,
+updateDate date default sysdate);
+
+alter table big_tree_reply add CONSTRAINT fk_reply_board
+FOREIGN key (bno) REFERENCES tbl_board(bno);
+
+create SEQUENCE reply_seq;
+select*from big_tree_member;
+commit;
+
+select*from big_tree_member;
+
+insert into big_tree_member values(33,'테스트','test11','12341234','부산','000-000-0900','test@@@@@@@','1999-12-12');
+
+create table big_tree_image(
+    bno number(10,0),
+    uuid varchar2(100) not null,
+    uploadpath varchar2(200)not null,
+    filename varchar2(1000)not null);
+    select*from big_tree_image;
+    
+    alter table big_tree_image MODIFY filename varchar2(1000);
+    commit;
+    alter table big_tree_image add CONSTRAINT fk_image
+    FOREIGN key (bno) REFERENCES big_tree_board(bno);
+
+alter table big_tree_member add user_kakao varchar2(30) default null unique;
+
+ alter table big_tree_reply add CONSTRAINT fk_big_tree_reply
+FOREIGN key (bno) REFERENCES big_tree_board(bno);
+
+commit;
